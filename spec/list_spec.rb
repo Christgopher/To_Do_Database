@@ -42,8 +42,8 @@ describe(List) do
     it("shows all tasks in a list") do
       list1 = List.new({:name => "zebra things", :id => nil})
       list1.save()
-      task1 = Task.new({:description => "clean zebra", :list_id => list1.id})
-      task2 = Task.new({:description => "eat zebra", :list_id => list1.id})
+      task1 = Task.new({:description => "scrub the zebra", :list_id => list1.id, :due => '2012-01-01', :id => nil})
+      task2 = Task.new({:description => "eat zebra", :list_id => list1.id, :due => '2012-01-01', :id => nil})
       task1.save()
       task2.save()
       expect(list1.tasks()).to(eq([task1, task2]))

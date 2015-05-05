@@ -27,12 +27,14 @@ class List
   end
 
   define_method(:tasks) do
-    returned_tasks = DB.exec("SELECT * FROM tasks WHERE list_id = #{self.id}")
+    returned_tasks = DB.exec("SELECT * FROM tasks WHERE list_id = #{self.id} ORDER BY due ASC;")
     all_tasks = []
     returned_tasks.each() do |tasks|
       description = tasks.fetch("description")
       list_id = tasks.fetch("list_id").to_i()
-      all_tasks.push(Task.new({:description => description, :list_id => list_id}))
+      due = tasks.fetch("due")
+      id = tasks.fetch("id")
+      all_tasks.push(Task.new({:description => description, :list_id => list_id, :due => due, :id => id}))
     end
   all_tasks
   end

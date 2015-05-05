@@ -1,5 +1,6 @@
 require "capybara/rspec"
 require "./app"
+require "spec_helper"
 Capybara.app = Sinatra::Application
 set(:show_expectations, false)
 
@@ -20,5 +21,17 @@ describe('viewing all of the lists', {:type => :feature}) do
     visit('/')
     click_link('View All Lists')
     expect(page).to have_content(list.name)
+  end
+end
+
+describe('seeing details for a single list', {:type => :feature}) do
+  it('allows a user to click a list to see the tasks and details for it') do
+    test_list = List.new({:name => 'School stuff', :id => nil})
+    test_list.save()
+    test_task = Task.new({:description => "learn SQL", :list_id => test_list.id(), :due => '2012-01-01', :id => nil})
+    test_task.save()
+    visit('/lists')
+    click_link(test_list.name())
+    expect(page).to have_content(test_task.description())
   end
 end
